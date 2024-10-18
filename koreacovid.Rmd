@@ -24,6 +24,19 @@ mutate(across(where(is.character), as.factor))
 Some of the data was uncoded for sex - sex must be just male or female
 77 of the data entries were coded sex  as blank, so we omit these.
 state of a patient must be died or alive - we adjust that as well   
+
+
+# Methods
+
+$H_0$ :  There is no difference in dying depending on Sex.  
+
+$H_A$ : There is a difference in dying depending on Sex.  
+
+The data is from korea in 2022.  
+
+result~sex  
+this is catagorical ~ catagorical 
+We will use helper file Cat_Cat
   
 # Your Question - Is dying independent of sex?
 
@@ -36,20 +49,55 @@ state of a patient must be died or alive - we adjust that as well
 
 
 
-  
+```{r}
+barchartGC(~result + Sex,data=kRdata)
+barchartGC(~result + Sex,data=kRdata, type="percent")
+
+```
 
 
 
 
+The bar chart shows more males died than women.
 
   
 ## Numerical results
 
+```{r}
+table1 <- xtabs(~result + Sex, data=kRdata)
+rowPerc(table1)
+colPerc(table1)
+```
+
+Among the people who died there were 64% of men who died and 36% of women who died.
 
 ## Inferential results 
 
 
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
+
+The P-value of Chi-squared test is 0.001 and the Fishcer exact test has a p-value of .00009. The odd of the fisher test also tastes that men are 2.3 more acceptable of dying from covid19 therefore the P-values are lower than 0.05 we reject the null hypothesis.
 
 
 ## Conclusions
 
+$H_0$ :  There is no difference in dying depending on Sex.  
+
+$H_A$ : There is a difference in dying depending on Sex.  
+
+The data is from korea in 2022.  
+
+result~sex  
+this is catagorical ~ catagorical 
+We will use helper file Cat_Cat
+
+
+The bar chart shows more males died than women.
+
+Among the people who died there were 64% of men who died and 36% of women who died.
+
+The P-value of Chi-squared test is 0.001 and the Fishcer exact test has a p-value of .00009. The odd of the fisher test also tastes that men are 2.3 more acceptable of dying from covid19 therefore the P-values are lower than 0.05 we reject the null hypothesis.
